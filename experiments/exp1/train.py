@@ -4,7 +4,11 @@ from stable_baselines3 import DQN
 from sb3_contrib import QRDQN
 from stable_baselines3.common.callbacks import BaseCallback
 from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.utils import set_random_seed
 import os
+
+os.environ["SDL_VIDEODRIVER"] = "dummy"
+script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # --- 1. Custom Callback for Safety Metrics ---
 class CrashLoggingCallback(BaseCallback):
@@ -31,7 +35,7 @@ class CrashLoggingCallback(BaseCallback):
 # --- 2. Training Function ---
 def train_experiment(model_type="DQN", seed=1):
     env_name = "highway-v0"
-    
+    set_random_seed(seed)
     # --- FIX IS HERE: Define config dictionary first ---
     env_config = {
         "observation": {
@@ -51,11 +55,13 @@ def train_experiment(model_type="DQN", seed=1):
         },
         "simulation_frequency": 15,  # [Hz]
         "policy_frequency": 1,       # [Hz]
+        "render_mode": None,
+        "lanes_count": 4,
     }
 
     # --- FIX IS HERE: Pass 'config' directly to gym.make ---
     env = gym.make(env_name, render_mode=None, config=env_config)
-    
+    env.reset(seed=seed)
     # Wrap for SB3 logging
     env = Monitor(env)
 
@@ -68,10 +74,10 @@ def train_experiment(model_type="DQN", seed=1):
 
     if model_type == "DQN":
         model = DQN("MlpPolicy", env, policy_kwargs=policy_kwargs, 
-                    verbose=1, seed=seed, tensorboard_log=log_dir)
+                    verbose=1, seed=seed, tensorboard_log=log_dir,device="cpu",exploration_fraction=0.5)
     elif model_type == "QRDQN":
         model = QRDQN("MlpPolicy", env, policy_kwargs=policy_kwargs, 
-                      verbose=1, seed=seed, tensorboard_log=log_dir)
+                      verbose=1, seed=seed, tensorboard_log=log_dir,device="cpu",exploration_fraction=0.5)
     
     # Train
     print(f"Starting training: {model_type} - Seed {seed}")
@@ -89,5 +95,5 @@ def train_experiment(model_type="DQN", seed=1):
 
 if __name__ == "__main__":
     # Train both models
-    train_experiment("DQN", seed=1)
-    train_experiment("QRDQN", seed=1)
+    train_experiment("DQN", seed=42)
+    train_experiment("QRDQN", seed=42)
