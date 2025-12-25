@@ -38,7 +38,7 @@ def get_test_env():
 
 def test_model(algo, path):
     if not os.path.exists(path):
-        print(f"⚠️  Model not found: {path}")
+        print(f"Model not found: {path}")
         return None
 
     print(f"Testing {algo} over {N_EPISODES} episodes...")
