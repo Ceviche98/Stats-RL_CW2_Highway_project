@@ -11,7 +11,7 @@ import time
 
 # --- SETUP ---
 os.environ["SDL_VIDEODRIVER"] = "dummy"
-script_dir = os.path.dirname(os.path.abspath(__file__))
+script_dir = os.path.abspath(".")
 
 # --- 1. Custom Callback for Safety Metrics ---
 class CrashLoggingCallback(BaseCallback):
@@ -180,5 +180,6 @@ def train_experiment(model_type="DQN", seed=1):
 
 if __name__ == "__main__":
     # Train both
-    train_experiment("DQN", seed=45)
     train_experiment("QRDQN", seed=45)
+    train_experiment("DQN", seed=45)
+    
