@@ -63,7 +63,7 @@ def make_configure_env(rank, seed=0):
         
         # --- TRAFFIC ---
         "vehicles_count": 50,
-        "vehicles_density": 2.0,
+        "vehicles_density": 1.75,
         # Explicitly defining NPC behavior ensures consistency
         "other_vehicles_type": "highway_env.vehicle.behavior.IDMVehicle",
         "duration": 40,
@@ -74,9 +74,9 @@ def make_configure_env(rank, seed=0):
         
         # --- REWARDS ---
         "collision_reward": -1,    
-        "right_lane_reward": 0.1,  
-        "high_speed_reward": 0.4,  
-        "lane_change_reward": 0.025, # Small incentive to be dynamic
+        "right_lane_reward": 0,  
+        "high_speed_reward": 0.8,  
+        "lane_change_reward": 0, # Small incentive to be dynamic
         "reward_speed_range": [20, 30],
         "normalize_reward": True
         }
@@ -98,6 +98,7 @@ def train_experiment(model_type="DQN", seed=1):
     
     # Detect CPU cores
     num_cpu = os.cpu_count()  
+    #num_cpu = 8
     print(f"--- Detected {num_cpu} CPUs. Launching parallel environments... ---")
 
     # Create the vectorized environment
@@ -121,7 +122,7 @@ def train_experiment(model_type="DQN", seed=1):
         policy="MlpPolicy",
         env=env,
         policy_kwargs=policy_kwargs,
-        verbose=1,
+        verbose=0,
         seed=seed,
         tensorboard_log=log_dir,
         device="cpu",
@@ -161,7 +162,7 @@ def train_experiment(model_type="DQN", seed=1):
     start_time = time.time()
     
     # 200k steps is plenty with this setup
-    total_steps = 200000
+    total_steps = 500000
     model.learn(total_timesteps=total_steps, callback=CrashLoggingCallback())
     
     total_time = (time.time() - start_time) / 60
@@ -180,6 +181,6 @@ def train_experiment(model_type="DQN", seed=1):
 
 if __name__ == "__main__":
     # Train both
-    train_experiment("QRDQN", seed=45)
-    train_experiment("DQN", seed=45)
+    train_experiment("QRDQN", seed=50)
+    train_experiment("DQN", seed=50)
     
