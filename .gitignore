@@ -3,7 +3,6 @@ __pycache__/
 *.zip
 *.mp4
 logs/
-models/
 results/videos/
 .DS_Store
 .vscode/
