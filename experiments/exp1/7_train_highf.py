@@ -58,20 +58,20 @@ def make_high_freq_env(rank, model_mode="aggressive", seed=0):
         if model_mode == "aggressive":
             # The "Formula 1" Driver
             config.update({
-                "collision_reward": -15,    # Serious but not paralyzing
+                "collision_reward": -30,    # Serious but not paralyzing
                 "right_lane_reward": 0,    
                 "high_speed_reward": 0.6,   # High incentive
                 "lane_change_reward": 0,    # Precision only (No weaving bonus)
-                "reward_speed_range": [25, 35]
+                "reward_speed_range": [15, 35]
             })
         else:
             # The "Attentive Grandma" (High Freq Conservative)
             config.update({
-                "collision_reward": -20,    # Fear is dominant
+                "collision_reward": -40,    # Fear is dominant
                 "right_lane_reward": 0,
-                "high_speed_reward": 0.2,   # Low incentive
-                "lane_change_reward": 0,
-                "reward_speed_range": [20, 30]
+                "high_speed_reward": 0.3,   # Low incentive
+                "lane_change_reward": -0.1,
+                "reward_speed_range": [10, 30]
             })
 
         env = gym.make(env_name, render_mode=None)
@@ -102,15 +102,15 @@ def train_high_freq(model_type="QRDQN", mode="aggressive", seed=1000):
         seed=seed,
         tensorboard_log=log_dir,
         device="cpu",
-        learning_rate=5e-4,
+        learning_rate=3e-4,
         buffer_size=300000, 
-        learning_starts=1000,
+        learning_starts=5000,
         batch_size=128,
-        gamma=0.9,
-        target_update_interval=50,
+        gamma=0.98,
+        target_update_interval=500,
         train_freq=1,
         gradient_steps=1,
-        exploration_fraction=0.3,
+        exploration_fraction=0.4,
         exploration_final_eps=0.05
     )
 
