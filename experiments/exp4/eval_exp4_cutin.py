@@ -12,8 +12,8 @@ from cutin_wrapper import BlindSpotCutInWrapper
 
 # ---- Paths: adjust if your model names differ ----
 MODELS = {
-    "DQN": "../../models/exp1_DQN_s42.zip",
-    "QRDQN": "../../models/exp1_QRDQN_s42.zip",
+    "DQN": "../../models/exp1_aggressive_DQN_s200.zip",
+    "QRDQN": "../../models/exp1_aggressive_QRDQN_s200.zip",
 }
 
 RESULTS_DIR = "../../results/exp4_cutin"
@@ -26,7 +26,7 @@ def make_env(seed: int = 0):
         "observation": {
             "type": "Kinematics",
             "vehicles_count": 15,
-            "features": ["presence", "x", "y", "vx", "vy"],
+            "features": ["presence", "x", "y", "vx", "vy","cos_h", "sin_h"],
             "absolute": False,
         },
         "action": {"type": "DiscreteMetaAction"},
@@ -104,7 +104,7 @@ def plot_histograms(df: pd.DataFrame):
     # TTC histogram
     plt.figure(figsize=(8, 5))
     for model in df["Model"].unique():
-        vals = df[(df["Model"] == model) & (df["CutInHappened"]) واپس if False else df[(df["Model"] == model) & (df["CutInHappened"])]
+        vals = df[(df["Model"] == model) & (df["CutInHappened"]) if False else df[(df["Model"] == model) & (df["CutInHappened"])]]
 
         vals = vals["MinTTC"].dropna()
         plt.hist(vals, bins=30, alpha=0.5, label=model)
