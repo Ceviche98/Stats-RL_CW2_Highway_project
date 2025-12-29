@@ -108,9 +108,9 @@ def train_high_freq(model_type="QRDQN", mode="aggressive", seed=1000):
         batch_size=128,
         gamma=0.98,
         target_update_interval=500,
-        train_freq=1,
-        gradient_steps=1,
-        exploration_fraction=0.4,
+        train_freq=5,
+        gradient_steps=5,
+        exploration_fraction=0.15,
         exploration_final_eps=0.05
     )
 
@@ -123,7 +123,7 @@ def train_high_freq(model_type="QRDQN", mode="aggressive", seed=1000):
     
     # 5 Hz means we generate 5x more steps per minute.
     # We train for 1M steps to give it enough "real time" experience.
-    total_steps = 1000000 
+    total_steps = 3750000 
     
     checkpoint_callback = CheckpointCallback(
         save_freq=max(1, 100000 // num_cpu), 
