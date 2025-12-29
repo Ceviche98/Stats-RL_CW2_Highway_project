@@ -15,8 +15,8 @@ VIDEO_DIR = "../../videos/exp4_full"
 os.makedirs(VIDEO_DIR, exist_ok=True)
 
 MODELS = {
-    "DQN": "../../models/exp1_DQN_s42.zip",
-    "QRDQN": "../../models/exp1_QRDQN_s42.zip",
+    "DQN": "../../models/exp1_aggressive_DQN_s200.zip",
+    "QRDQN": "../../models/exp1_aggressive_QRDQN_s200.zip",
 }
 
 
@@ -25,7 +25,7 @@ def make_env(seed=0):
         "observation": {
             "type": "Kinematics",
             "vehicles_count": 20,
-            "features": ["presence", "x", "y", "vx", "vy"],
+            "features": ["presence", "x", "y", "vx", "vy","cos_h", "sin_h"],
             "absolute": False,
         },
         "action": {"type": "DiscreteMetaAction"},
