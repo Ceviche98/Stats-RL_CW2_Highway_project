@@ -101,12 +101,13 @@ def run_eval(model_name: str, model_path: str, episodes: int = 200, seed: int = 
 
 
 def plot_histograms(df: pd.DataFrame):
-    # TTC histogram
-    plt.figure(figsize=(8, 5))
-    for model in df["Model"].unique():
-        vals = df[(df["Model"] == model) & (df["CutInHappened"]) if False else df[(df["Model"] == model) & (df["CutInHappened"])]]
+    # Only episodes where cut-in occurred
+    df_cutin = df[df["CutInHappened"] == True].copy()
 
-        vals = vals["MinTTC"].dropna()
+    # --- TTC histogram ---
+    plt.figure(figsize=(8, 5))
+    for model in df_cutin["Model"].unique():
+        vals = df_cutin[df_cutin["Model"] == model]["MinTTC"].dropna()
         plt.hist(vals, bins=30, alpha=0.5, label=model)
     plt.title("Experiment 4: Min TTC Distribution (Cut-in Episodes)")
     plt.xlabel("Min TTC (seconds)")
@@ -115,10 +116,10 @@ def plot_histograms(df: pd.DataFrame):
     plt.grid(True)
     plt.savefig(os.path.join(RESULTS_DIR, "ttc_hist.png"), dpi=200)
 
-    # Reaction time histogram
+    # --- Reaction time histogram ---
     plt.figure(figsize=(8, 5))
-    for model in df["Model"].unique():
-        vals = df[(df["Model"] == model) & (df["CutInHappened"])]["ReactionTimeSteps"].dropna()
+    for model in df_cutin["Model"].unique():
+        vals = df_cutin[df_cutin["Model"] == model]["ReactionTimeSteps"].dropna()
         plt.hist(vals, bins=30, alpha=0.5, label=model)
     plt.title("Experiment 4: Reaction Time (steps) after Cut-in")
     plt.xlabel("Reaction time (steps) — first brake action")
@@ -126,6 +127,7 @@ def plot_histograms(df: pd.DataFrame):
     plt.legend()
     plt.grid(True)
     plt.savefig(os.path.join(RESULTS_DIR, "reaction_time_hist.png"), dpi=200)
+
 
 
 def summarize(df: pd.DataFrame):
