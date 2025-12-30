@@ -24,19 +24,18 @@ def make_env(seed=0):
     env_config = {
         "observation": {
             "type": "Kinematics",
-            "vehicles_count": 20,
-            "features": ["presence", "x", "y", "vx", "vy","cos_h", "sin_h"],
+            "vehicles_count": 15,  # match your model training
+            "features": ["presence", "x", "y", "vx", "vy", "cos_h", "sin_h"],  # match training
             "absolute": False,
         },
         "action": {"type": "DiscreteMetaAction"},
         "lanes_count": 4,
-        "duration": 120,                 # FULL episode
+        "duration": 120,
         "simulation_frequency": 15,
         "policy_frequency": 1,
-        "render_mode": "rgb_array",
     }
 
-    env = gym.make("highway-v0", config=env_config)
+    env = gym.make("highway-v0", render_mode="rgb_array", config=env_config)
 
     env = BlindSpotCutInWrapper(
         env,
@@ -48,6 +47,7 @@ def make_env(seed=0):
     )
 
     return env
+
 
 
 def record_full_episode(model_name, model_path, seed=0):
