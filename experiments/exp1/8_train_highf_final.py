@@ -97,7 +97,7 @@ def train_high_freq(model_type="QRDQN", mode="aggressive", seed=1000):
     model_args = dict(
         policy="MlpPolicy",
         env=env,
-        policy_kwargs=dict(net_arch=[256, 256]), 
+        policy_kwargs=dict(net_arch=[512, 512]), 
         verbose=0,
         seed=seed,
         tensorboard_log=log_dir,
@@ -105,8 +105,8 @@ def train_high_freq(model_type="QRDQN", mode="aggressive", seed=1000):
         learning_rate=3e-4,
         buffer_size=300000, 
         learning_starts=5000,
-        batch_size=128,
-        gamma=0.98,
+        batch_size=256,
+        gamma=0.99,
         target_update_interval=500,
         train_freq=5,
         gradient_steps=5,
@@ -141,7 +141,7 @@ def train_high_freq(model_type="QRDQN", mode="aggressive", seed=1000):
 if __name__ == "__main__":
     # RECOMMENDATION: Train the Aggressive QRDQN first.
     # This is your best shot at beating the Density 1.5 wall.
-    #train_high_freq("QRDQN", mode="aggressive", seed=200)
+    train_high_freq("QRDQN", mode="aggressive", seed=500)
     
     # Optional: Train Conservative to compare (if you have time)
-    train_high_freq("QRDQN", mode="conservative", seed=200)
+    train_high_freq("QRDQN", mode="conservative", seed=500)
