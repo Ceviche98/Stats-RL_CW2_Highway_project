@@ -1,7 +1,6 @@
-# ============================================================
-# EXPERIMENT 5 (FINAL): THE BRAKING SNAKE (2-LANE VERSION)
-# Tighter Space + Braking + Weaving
-# ============================================================
+
+# EXPERIMENT 5 (FINAL): 
+
 
 import os
 import numpy as np
