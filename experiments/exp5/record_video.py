@@ -12,12 +12,11 @@ cfg = {
     "duration": 60,
     "normalize_reward": False,
     "offscreen_rendering": True,
-    
-    # --- ADD/CHANGE THESE LINES ---
-    "scaling": 3,            # Lower value = Zoom out (Try 2.5 or 3)
-    "centering_position": [0.4, 0.5], # Moves the camera: 0.4 centers it more on the platoon
+
+    # camera / rendering tweaks (won't affect model load)
+    "scaling": 3,
+    "centering_position": [0.4, 0.5],
     "manual_control": False,
-    # ------------------------------
 
     "action": {"type": "DiscreteMetaAction"},
     "observation": {
@@ -29,16 +28,22 @@ cfg = {
 }
 
 env = WeavingPlatoonEnv(cfg, render_mode="rgb_array")
-model = QRDQN.load("exp5_weaving_snake_qrdqn.zip")
+
+
+model_path = "models/exp5/exp5_weaving_snake_qrdqn.zip"
+assert os.path.exists(model_path), f"Model file not found: {model_path}"
+model = QRDQN.load(model_path, env=env)
+
 
 frames = []
 obs, info = env.reset()
 terminated = truncated = False
 
 while not (terminated or truncated):
-    frame = env.render()          # <-- get RGB frame directly
+    frame = env.render()  # get RGB frame directly
     if frame is not None:
         frames.append(frame)
+
     action, _ = model.predict(obs, deterministic=True)
     obs, reward, terminated, truncated, info = env.step(action)
 
@@ -46,4 +51,3 @@ env.close()
 
 imageio.mimsave("weaving_snake_manual.mp4", frames, fps=15)
 print("Saved weaving_snake_manual.mp4")
-
