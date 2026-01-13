@@ -35,12 +35,12 @@ MODELS = {
     },
     "Low_Frequency": {
         "QRDQN": {
-            "Aggressive": "workspace/models/exp1/E_Low_freq_aggr_QRDQN_s200.zip",
-            "Conservative": "workspace/models/exp1/G_Low_freq_cons_QRDQN_s200.zip"
+            "Aggressive": "workspace/models/exp1/F_Low_freq_aggr_QRDQN_s200.zip",
+            "Conservative": "workspace/models/exp1/H_Low_freq_cons_QRDQN_s200.zip"
         },
         "DQN": {
-            "Aggressive": "workspace/models/exp1/F_Low_freq_aggr_DQN_s200.zip",
-            "Conservative": "workspace/models/exp1/H_Low_freq_cons_DQN_s200.zip"
+            "Aggressive": "workspace/models/exp1/E_Low_freq_aggr_DQN_s200.zip",
+            "Conservative": "workspace/models/exp1/G_Low_freq_cons_DQN_s200.zip"
         },
     }
 }

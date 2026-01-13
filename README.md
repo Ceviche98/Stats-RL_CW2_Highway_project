@@ -51,8 +51,7 @@ Train DQN/QRDQN under 4 configurations to populate TABLE III (13 models, A-M).
 
 #### Step 0: High-Frequency Baseline (Models A, B, C, D)
 ```bash
-cd experiments/exp1
-python 7_train_highf.py
+python experiments/exp1/7_train_highf.py
 ```
 **Generates:**
 - `A_High_freq_aggressive_DQN_s200` - DQN baseline, aggressive mode
@@ -76,8 +75,7 @@ python 7_train_highf.py
 
 #### Step 1: Low-Frequency Aggressive (Models E, F)
 ```bash
-cd experiments/exp1
-python 6_train_aggressive.py
+python experiments/exp1/6_train_aggressive.py
 ```
 **Generates:**
 - `E_Low_freq_aggr_DQN_s200` - 67.2% crash rate
@@ -98,7 +96,7 @@ train_experiment(model_type="QRDQN", seed=200)  # seed controls randomness
 
 #### Step 2: Low-Frequency Conservative (Models G, H)
 ```bash
-python 6_train_conservative.py
+python experiments/exp1/6_train_conservative.py
 ```
 **Generates:**
 - `G_Low_freq_cons_DQN_s200` - 98.2% crash rate
@@ -114,7 +112,7 @@ python 6_train_conservative.py
 
 #### Step 3: High-Frequency Models (Models I, J)
 ```bash
-python 8_train_highf_final.py
+python experiments/exp1/8_train_highf_final.py
 ```
 **Generates:**
 - `I_High_freq_aggressive_QRDQN_s500_opt` - 30.4% crash rate
@@ -136,7 +134,7 @@ python 8_train_highf_final.py
 
 #### Step 4: Optimized Low-Frequency Variants (Models K, L, M)
 ```bash
-python 9_train_low_aggressive.py
+python experiments/exp1/9_train_low_aggressive.py
 ```
 **Generates:**
 - `K_Low_freq_aggressive_QRDQN_s300_opt` - 24.5% crash rate
@@ -203,8 +201,7 @@ Evaluate best models (E, F) under perceptual degradation without retraining.
 Action execution delays of k ∈ {1, 2, 3, 4} frames.
 
 ```bash
-cd experiments/exp2
-python test_latency.py
+python experiments/exp2/test_latency.py
 ```
 
 **What it does:**
@@ -224,7 +221,7 @@ N_EPISODES = 600                    # More episodes = more stable
 Gaussian noise N(0,σ) added to vehicle coordinate observations.
 
 ```bash
-python test_noise.py
+python experiments/exp2/test_noise.py
 ```
 
 **What it does:**
@@ -244,7 +241,7 @@ NOISE_LEVELS = [0.0, 0.025, 0.05, 0.075, 0.1, 0.15]
 Random observation dropout with probability p ∈ {0.0, 0.05, ..., 0.2}.
 
 ```bash
-python test_blackout_gradient.py
+python experiments/exp2/test_blackout_gradient.py
 ```
 
 **What it does:**
@@ -268,8 +265,7 @@ Assess if agents learned robust dynamics or memorized training conditions.
 Increase traffic density ρ from 1.5→2.5, identify "break point" (crash rate >50%).
 
 ```bash
-cd experiments/exp3
-python 0_evaluate_capacity_curriculum.py
+python experiments/exp3/0_evaluate_capacity_curriculum.py
 ```
 
 **What it does:**
@@ -284,7 +280,7 @@ python 0_evaluate_capacity_curriculum.py
 Transfer learning on merge-v0 (lane merging) environment.
 
 ```bash
-python 1_train_merge.py
+python experiments/exp3/1_train_merge.py
 ```
 
 **What it does:**
@@ -300,10 +296,10 @@ Zero-shot transfer from highway/merge → roundabout.
 
 ```bash
 # Generalization on highway at varying densities
-python evaluate_transfer_density.py
+python experiments/exp3/evaluate_transfer_density.py
 
 # Transfer to roundabout (zero-shot)
-python evaluate_transfer_metrics.py
+python experiments/exp3/evaluate_transfer_metrics.py
 ```
 
 **What it does:**
@@ -321,8 +317,7 @@ python evaluate_transfer_metrics.py
 Generate MP4 showing agent driving with real-time speedometer overlay.
 
 ```bash
-cd experiments/exp1
-python record_video_s200_speed.py
+python experiments/exp1/record_video_s200_speed.py
 ```
 
 **Output:** `results/videos/speedometer_F_Low_freq_aggr_QRDQN_s200.mp4`
@@ -364,7 +359,7 @@ env_config = {
 For models I, J (5 Hz):
 
 ```bash
-python record_video_highf_s200_speed.py
+python experiments/exp1/record_video_highf_s200_speed.py
 ```
 
 **Differences:**

@@ -19,8 +19,7 @@ Both scripts produce **60-second episodes** with color-coded speedometer showing
 
 ### How to Run
 ```bash
-cd experiments/exp1
-python record_video_s200_speed.py
+python experiments/exp1/record_video_s200_speed.py
 ```
 
 ### Output
@@ -137,8 +136,7 @@ else:                                    # Too slow
 
 ### How to Run
 ```bash
-cd experiments/exp1
-python record_video_highf_s200_speed.py
+python experiments/exp1/record_video_highf_s200_speed.py
 ```
 
 ### Output
@@ -248,17 +246,15 @@ If we saved at 15 FPS, you'd see every physics frame but not necessarily the age
 ### Generate Multiple Videos for Comparison
 
 ```bash
-cd experiments/exp1
-
 # Low-frequency baseline comparison
-python record_video_s200_speed.py  # Best model (F)
+python experiments/exp1/record_video_s200_speed.py
 
 # Then manually change model_name in script to:
 # E (DQN), G (Conservative), K (Optimized)
 # and run again for each
 
 # High-frequency models
-python record_video_highf_s200_speed.py  # Model I
+python experiments/exp1/record_video_highf_s200_speed.py  # Model I
 # Change model_name to J and run again
 ```
 
