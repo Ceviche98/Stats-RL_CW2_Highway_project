@@ -14,15 +14,17 @@ script_dir = os.path.abspath(".")
 DENSITIES = np.arange(1.5, 2.51, 0.1) 
 N_EPISODES = 1000 
 
-# DEFINE YOUR MODELS
+# DEFINE YOUR MODELS (from exp1 - TABLE III)
+# Conservative: G (DQN), H (QRDQN) - Low-frequency conservative
+# Aggressive: E (DQN), F (QRDQN) - Low-frequency aggressive
 MODELS_CONSERVATIVE = [
-    {"name": "DQN (Conservative)",   "class": DQN,   "file": "exp1_conservative_DQN_s200", "color": "#1f77b4"}, 
-    {"name": "QRDQN (Conservative)", "class": QRDQN, "file": "exp1_conservative_QRDQN_s200", "color": "#2ca02c"} 
+    {"name": "DQN (Conservative)",   "class": DQN,   "file": "exp1/G_Low_freq_cons_DQN_s200", "color": "#1f77b4"}, 
+    {"name": "QRDQN (Conservative)", "class": QRDQN, "file": "exp1/H_Low_freq_cons_QRDQN_s200", "color": "#2ca02c"} 
 ]
 
 MODELS_AGGRESSIVE = [
-    {"name": "DQN (Aggressive)",     "class": DQN,   "file": "exp1_aggressive_DQN_s200", "color": "#d62728"}, 
-    {"name": "QRDQN (Aggressive)",   "class": QRDQN, "file": "exp1_aggressive_QRDQN_s200", "color": "#9467bd"} 
+    {"name": "DQN (Aggressive)",     "class": DQN,   "file": "exp1/E_Low_freq_aggr_DQN_s200", "color": "#d62728"}, 
+    {"name": "QRDQN (Aggressive)",   "class": QRDQN, "file": "exp1/F_Low_freq_aggr_QRDQN_s200", "color": "#9467bd"} 
 ]
 
 # --- ENVIRONMENT FACTORY ---

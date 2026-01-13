@@ -93,7 +93,7 @@ def train_experiment(model_type="DQN", seed=1):
     #max_cpus = 16 
     total_cores = os.cpu_count()
     num_cpu = max(1, total_cores - 2)
-    
+    model_index= "E" if model_type=="DQN" else "F"
     print(f"--- Detected {os.cpu_count()} CPUs. Using {num_cpu} parallel environments... ---")
 
     # Create the vectorized environment
@@ -171,9 +171,11 @@ def train_experiment(model_type="DQN", seed=1):
     print(f"Training finished in {total_time:.2f} minutes.")
 
     # Save Final Model
-    save_dir = os.path.join(script_dir, "models")
+    save_dir = os.path.join(script_dir, "models/exp1/")
     os.makedirs(save_dir, exist_ok=True)
-    save_path = os.path.join(save_dir, f"exp1_aggressive_{model_type}_s{seed}")
+    # Assign model index based on model type (E=DQN, F=QRDQN)
+    model_idx = "E" if model_type == "DQN" else "F"
+    save_path = os.path.join(save_dir, f"{model_idx}_Low_freq_aggr_{model_type}_s{seed}")
     
     model.save(save_path)
     print(f"Model saved to {save_path}")

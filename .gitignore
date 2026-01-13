@@ -1,9 +1,15 @@
 
 __pycache__/
-*.zip
 *.mp4
 logs/
-models/
+models/exp1_non_final/
+models_checkpoints/
+models_checkpoints_highfreq/
+models_checkpoints_merge/
 results/videos/
 .DS_Store
 .vscode/
+HighFreq_complete_exp.ipynb
+LowFreq_complete_exp.ipynb
+test_models.ipynb
+Interesting_repos.txt

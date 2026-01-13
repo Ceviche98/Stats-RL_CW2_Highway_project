@@ -143,7 +143,7 @@ def train_experiment(model_type="DQN", seed=1):
         exploration_fraction=0.3,
         exploration_final_eps=0.05
     )
-
+    model_index= "G" if model_type=="DQN" else "H"
     if model_type == "DQN":
         model = DQN(**model_args)
     elif model_type == "QRDQN":
@@ -171,9 +171,9 @@ def train_experiment(model_type="DQN", seed=1):
     print(f"Training finished in {total_time:.2f} minutes.")
 
     # Save Final Model
-    save_dir = os.path.join(script_dir, "models")
+    save_dir = os.path.join(script_dir, "models/exp1/")
     os.makedirs(save_dir, exist_ok=True)
-    save_path = os.path.join(save_dir, f"exp1_conservative_{model_type}_s{seed}")
+    save_path = os.path.join(save_dir, f"{model_index}_Low_freq_cons_{model_type}_s{seed}")
     
     model.save(save_path)
     print(f"Model saved to {save_path}")

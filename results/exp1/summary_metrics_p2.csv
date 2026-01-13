@@ -1,0 +1,2 @@
+Model_Name,Algorithm,Gamma,Frequency,Version,Total_Episodes,Crash_Rate,Avg_Reward,Std_Reward,Avg_Speed,Std_Speed,Avg_Episode_Length,Std_Episode_Length
+Optimized_1Hz_Gamma93_target_150,QRDQN,0.93,2Hz,optimized,1000,42.1,-4.3,6.55,21.42,1.98,88.2,42.4

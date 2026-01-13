@@ -5,14 +5,17 @@ from stable_baselines3 import DQN
 import os
 import imageio
 import numpy as np
+import cv2
 
 # --- CONFIGURATION ---
-# Path to your trained model file (without .zip)
-# EXAMPLE: "models/exp1c_aggressive_highfreq_QRDQN_s1000"
-MODEL_PATH = "models/exp1c_aggressive_highfreq_QRDQN_s200.zip" 
+script_dir = os.path.abspath(".")
+# Updated to use best high-frequency models (I or J)
+model_name = "I_High_freq_aggressive_QRDQN_s500_opt"
+MODEL_PATH = os.path.join(script_dir, "models/exp1/{}.zip".format(model_name))
+VIDEO_OUTPUT = os.path.join(script_dir, "results/videos/speedometer_highfreq_{}.mp4".format(model_name))
+
 MODEL_TYPE = "QRDQN"  # "DQN" or "QRDQN"
 MODE = "aggressive"   # "aggressive" or "conservative"
-VIDEO_NAME = "debug_highfreq_run.mp4"
 
 # --- RE-CREATE THE EXACT ENVIRONMENT ---
 # We must use the EXACT config used during training
@@ -87,16 +90,13 @@ def record_video():
     step_counter = 0
     total_reward = 0
     
-    print("--- Starting Simulation (Max 60s) ---")
+    print("--- Starting Simulation (Max 60s at 5 Hz) ---")
     
     while not (done or truncated):
         # Predict action
         action, _ = model.predict(obs, deterministic=True)
         
         # Step environment
-        # NOTE: With policy_freq=5 and sim_freq=15, 
-        # this single step advances the physics by 3 frames (0.2 seconds).
-        # The environment automatically holds the action ("idle" logic) for those frames.
         obs, reward, done, truncated, info = env.step(action)
         
         total_reward += reward
@@ -105,26 +105,53 @@ def record_video():
         # Render frame
         frame = env.render()
         
-        # Add text to frame (Step count + Speed)
-        # (Optional: requires OpenCV, skipping for simplicity, just saving raw frame)
+        # --- ADD SPEEDOMETER OVERLAY ---
+        frame = np.ascontiguousarray(frame, dtype=np.uint8)
+        
+        # Get speed info
+        speed_ms = env.unwrapped.vehicle.speed
+        speed_kmh = speed_ms * 3.6
+        
+        # Reward zone from config (high-freq: [15, 35] m/s)
+        config_mode = make_eval_env(MODE)
+        target_min_kmh = 15 * 3.6  # 54 km/h
+        target_max_kmh = 35 * 3.6  # 126 km/h
+        
+        # Color logic
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        text_speed = f"Speed: {speed_kmh:.1f} km/h"
+        
+        if speed_kmh > target_max_kmh:
+            color = (0, 0, 255)  # Red (Too fast)
+        elif speed_kmh >= target_min_kmh:
+            color = (0, 255, 0)  # Green (In reward zone)
+        else:
+            color = (255, 0, 0)  # Blue (Too slow)
+        
+        # Draw speedometer
+        cv2.putText(frame, text_speed, (20, 30), font, 0.6, (0, 0, 0), 3, cv2.LINE_AA)  # Outline
+        cv2.putText(frame, text_speed, (20, 30), font, 0.6, color, 2, cv2.LINE_AA)       # Text
+        
+        # Draw legend
+        text_legend = f"Target: {target_min_kmh:.0f}-{target_max_kmh:.0f} km/h"
+        cv2.putText(frame, text_legend, (20, 55), font, 0.5, (0, 0, 0), 3, cv2.LINE_AA)  # Outline
+        cv2.putText(frame, text_legend, (20, 55), font, 0.5, (255, 255, 255), 1, cv2.LINE_AA)  # White
+        
         frames.append(frame)
 
         # Print progress every second (5 steps)
         if step_counter % 5 == 0:
-            speed = info['speed'] * 3.6 if 'speed' in info else 0
-            print(f"Time: {step_counter/5:.1f}s | Speed: {speed:.1f} km/h | Reward: {reward:.2f}")
+            print(f"Time: {step_counter/5:.1f}s | Speed: {speed_kmh:.1f} km/h | Reward: {reward:.2f}")
 
     env.close()
     
     # 4. Save Video
-    print(f"--- Saving Video to {VIDEO_NAME} ---")
-    # We save at 5 FPS because that's the policy frequency (what the agent sees)
-    # If you want smooth physics playback, 15 FPS would be 'real time' but 
-    # we only captured the policy steps.
-    # To capture all physics frames, we'd need to modify the env, 
-    # but 5 FPS is enough to diagnose decisions.
-    imageio.mimsave(VIDEO_NAME, frames, fps=5)
-    print("Done!")
+    print(f"--- Saving Video to {VIDEO_OUTPUT} ---")
+    os.makedirs(os.path.dirname(VIDEO_OUTPUT), exist_ok=True)
+    # Save at 5 FPS (matches policy frequency)
+    imageio.mimsave(VIDEO_OUTPUT, frames, fps=5)
+    print(f"✓ Done! Video saved to {VIDEO_OUTPUT}")
+    print(f"Total reward: {total_reward:.2f}")
 
 if __name__ == "__main__":
     record_video()

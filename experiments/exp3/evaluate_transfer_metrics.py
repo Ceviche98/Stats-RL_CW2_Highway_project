@@ -9,7 +9,7 @@ from tqdm import tqdm
 
 # --- CONFIG ---
 script_dir = os.path.abspath(".")
-N_EPISODES = 1000 # High sample size for tight Confidence Intervals
+N_EPISODES = 2000 # High sample size for tight Confidence Intervals
 
 # Define your models here
 models_to_test = [
@@ -39,7 +39,7 @@ def get_env_config(env_type):
         base_config["vehicles_density"] = 1.5
         base_config["duration"] = 20
     elif env_type == "roundabout":
-        base_config["duration"] = 40 
+        base_config["duration"] = 25 
         
     return base_config
 

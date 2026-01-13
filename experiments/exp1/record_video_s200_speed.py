@@ -8,8 +8,9 @@ import imageio
 
 # --- CONFIGURATION ---
 script_dir = os.path.abspath(".")
-model_name = "exp1_conservative_QRDQN_s200" 
-MODEL_PATH = os.path.join(script_dir, "models/{}.zip".format(model_name))
+# Updated to use best baseline model (F: Low-freq aggressive QRDQN)
+model_name = "F_Low_freq_aggr_QRDQN_s200" 
+MODEL_PATH = os.path.join(script_dir, "models/exp1/{}.zip".format(model_name))
 VIDEO_OUTPUT = os.path.join(script_dir, "results/videos/speedometer_{}.mp4".format(model_name))
 
 def record_with_speedometer():

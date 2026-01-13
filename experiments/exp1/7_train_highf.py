@@ -81,7 +81,7 @@ def make_high_freq_env(rank, model_mode="aggressive", seed=0):
     return _init
 
 # --- 3. Training Function ---
-def train_high_freq(model_type="QRDQN", mode="aggressive", seed=1000):
+def train_high_freq(model_type="QRDQN", mode="aggressive", seed=1000,model_index="A"):
     
     num_cpu = max(1, os.cpu_count() - 2)
     print(f"--- Exp 1C (High-Freq {mode}): Using {num_cpu} CPUs... ---")
@@ -133,15 +133,14 @@ def train_high_freq(model_type="QRDQN", mode="aggressive", seed=1000):
 
     model.learn(total_timesteps=total_steps, callback=[CrashLoggingCallback(), checkpoint_callback])
     
-    save_path = os.path.join(script_dir, "models", f"exp1c_{mode}_highfreq_{model_type}_s{seed}")
+    save_path = os.path.join(script_dir,"models/exp1/" ,f"{model_index}_High_freq_{mode}_{model_type}_s{seed}")
     model.save(save_path)
     print(f"Model saved to {save_path}")
     env.close()
 
 if __name__ == "__main__":
-    # RECOMMENDATION: Train the Aggressive QRDQN first.
-    # This is your best shot at beating the Density 1.5 wall.
-    #train_high_freq("QRDQN", mode="aggressive", seed=200)
-    
-    # Optional: Train Conservative to compare (if you have time)
-    train_high_freq("QRDQN", mode="conservative", seed=200)
+
+    train_high_freq("DQN", mode="aggressive", seed=200,model_index="A")
+    train_high_freq("QRDQN", mode="aggressive", seed=200,model_index="B")
+    train_high_freq("DQN", mode="conservative", seed=200,model_index="C")
+    train_high_freq("QRDQN", mode="conservative", seed=200,model_index="D")

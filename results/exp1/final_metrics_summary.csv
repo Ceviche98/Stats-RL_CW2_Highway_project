@@ -1,0 +1,3 @@
+Frequency,Algorithm,Behavior,Total_Episodes,Crash_Rate,Avg_Reward,Std_Reward,Avg_Speed
+Low_Frequency,DQN,Aggressive,1000,0.672,-8.410834809222468,7.596697357387161,23.462177073746492
+Low_Frequency,QRDQN,Aggressive,1000,0.138,-2.055077316091544,5.1783514703645475,20.045748578790267
