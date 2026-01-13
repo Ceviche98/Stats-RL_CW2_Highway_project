@@ -18,7 +18,7 @@ This project evaluates DQN and QR-DQN agents in high-density highway traffic (ρ
 
 | Experiment | Purpose | Scripts | Time |
 |---|---|---|---|
-| **Exp1** | Train baseline models (13 total A-M) | `7_*.py` (A-D), `6_*.py` (E-H), `8_*.py` (I-J), `9_*.py` (K-M) | 8-12 hours total |
+| **Exp1** | Train baseline models (13 total A-M) | `7_*.py` (A-D), `6_*.py` (E-H), `8_*.py` (I-J), `9_*.py` (K-M) | 8-12 hours per model |
 | **Exp2** | Robustness (latency/noise/blackout) | `exp2/test_*.py` | 1-2 hours |
 | **Exp3** | Generalization & transfer learning | `exp3/0_*.py`, `evaluate_*.py` | 6-8 hours |
 | **Videos** | Qualitative visualization | `record_video_*.py` | 5 min |
