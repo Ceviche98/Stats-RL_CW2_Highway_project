@@ -9,7 +9,7 @@ from gymnasium.wrappers import RecordVideo
 # --- CONFIGURATION ---
 USE_SAFETY_SHIELD = False  
 DQN_PATH = "../../models/exp1/E_Low_freq_aggr_DQN_s200.zip"
-QRDQN_PATH = "../../models/exp1_aggressive_QRDQN_s200.zip"
+QRDQN_PATH = "../../models/exp1/F_Low_freq_aggr_QRDQN_s200.zip"
 VIDEO_DIR = "../../videos/exp4_blind_spot/"
 
 os.makedirs(VIDEO_DIR, exist_ok=True)
